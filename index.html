@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Controle de Acidentes Urbanos</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            height: 100vh;
+            background-color: #222222;
+            color: #ddd;
+        }
+
+        nav {
+            width: 200px;
+            background-color: #333;
+            color: white;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        nav h1 {
+            color: white;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin-top: 20px;
+            width: 100%;
+        }
+
+        nav ul li {
+            width: 100%;
+            text-align: center;
+            margin: 10px 0;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            display: block;
+            padding: 10px;
+            background-color: #555;
+            border-radius: 5px;
+        }
+
+        nav ul li a:hover {
+            background-color: #444;
+        }
+
+        main {
+            flex-grow: 1;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        section {
+            display: none;
+        }
+
+        section.active {
+            display: block;
+        }
+
+        h1, h2 {
+            color: #4f8ac8;
+            text-align: center;
+        }
+
+        .title-container {
+            background-color: #333;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        form {
+            background-color: #333;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            border: 1px solid #444;
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+            color: #ddd;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #666;
+            border-radius: 5px;
+            background-color: #444;
+            color: #fff;
+        }
+
+        input[type="file"] {
+            padding: 3px;
+        }
+
+        button {
+            background-color: #4f8ac8;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #3c6ca8;
+        }
+
+        table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+            background-color: #333;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border: 1px solid #444;
+        }
+
+        th {
+            background-color: #444;
+            color: white;
+        }
+
+        td {
+            color: #ddd;
+        }
+
+        .chart-container {
+            width: 100%;
+            height: 300px;
+            margin-top: 20px;
+        }
+
+        .chart {
+            background-color: #222;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <h1>Controle de Acidentes Urbanos</h1>
+        <ul>
+            <li><a href="#" onclick="showSection('form')">Registrar Acidente</a></li>
+            <li><a href="#" onclick="showSection('list')">Consultar Acidentes</a></li>
+            <li><a href="#" onclick="showSection('report')">Relatórios</a></li>
+        </ul>
+    </nav>
+    <main>
+        <section id="home" class="active">
+            <div class="title-container">
+                <h2>Bem-vindo ao Sistema de Controle de Acidentes Urbanos</h2>
+                <p>Registre, consulte e visualize dados sobre acidentes urbanos de forma simples e rápida.</p>
+            </div>
+        </section>
+        
+        <section id="form">
+            <h2>Registrar Acidente</h2>
+            <form id="accident-form">
+                <label for="dataHora">Data e Hora</label>
+                <input type="datetime-local" id="dataHora" required>
+                
+                <label for="local">Local</label>
+                <input type="text" id="local" required>
+                
+                <label for="coordenadas">Coordenadas (opcional)</label>
+                <input type="text" id="coordenadas" placeholder="Latitude, Longitude">
+                
+                <label for="envolvidos">Envolvidos</label>
+                <select id="envolvidos" multiple>
+                    <option value="motorista">Motorista</option>
+                    <option value="pedestre">Pedestre</option>
+                    <option value="ciclista">Ciclista</option>
+                </select>
+                
+                <label for="veiculos">Tipos de Veículos</label>
+                <select id="veiculos" multiple>
+                    <option value="carro">Carro</option>
+                    <option value="moto">Moto</option>
+                    <option value="bicicleta">Bicicleta</option>
+                    <option value="caminhao">Caminhão</option>
+                </select>
+                
+                <label for="condicao">Condição do Veículo</label>
+                <select id="condicao">
+                    <option value="danificado">Danificado</option>
+                    <option value="sem danos">Sem Danos</option>
+                    <option value="totalmente destruído">Totalmente Destruído</option>
+                </select>
+                
+                <label for="descricao">Descrição</label>
+                <textarea id="descricao" required></textarea>
+                
+                <label for="fotos">Fotos (se aplicável)</label>
+                <input type="file" id="fotos" multiple>
+                
+                <label for="condicoes">Condições Climáticas</label>
+                <select id="condicoes">
+                    <option value="chuva">Chuva</option>
+                    <option value="sol">Sol</option>
+                    <option value="nublado">Nublado</option>
+                </select>
+                
+                <label for="sinalizacao">Sinalização no Local</label>
+                <select id="sinalizacao">
+                    <option value="boa">Boa</option>
+                    <option value="ruim">Ruim</option>
+                    <option value="não visível">Não Visível</option>
+                </select>
+                
+                <button type="button" onclick="saveAccident()">Salvar</button>
+            </form>
+        </section>
+        
+        <section id="list">
+            <h2>Consultar Acidentes</h2>
+            <input type="text" id="search" placeholder="Pesquisar acidentes..." oninput="filterAccidents()">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Data e Hora</th>
+                        <th>Local</th>
+                        <th>Veículos</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody id="accidents-list"></tbody>
+            </table>
+        </section>
+        
+        <section id="report">
+            <h2>Relatórios</h2>
+            <div class="chart-container">
+                <canvas id="accidentChart" class="chart"></canvas>
+            </div>
+        </section>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        function showSection(id) {
+            const sections = document.querySelectorAll('section');
+            sections.forEach(section => section.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+        }
+
+        function saveAccident() {
+            const dataHora = document.getElementById('dataHora').value;
+            const local = document.getElementById('local').value;
+            const coordenadas = document.getElementById('coordenadas').value;
+            const envolvidos = Array.from(document.getElementById('envolvidos').selectedOptions).map(option => option.value);
+            const veiculos = Array.from(document.getElementById('veiculos').selectedOptions).map(option => option.value);
+            const condicao = document.getElementById('condicao').value;
+            const descricao = document.getElementById('descricao').value;
+            const fotos = document.getElementById('fotos').files;
+            const condicoes = document.getElementById('condicoes').value;
+            const sinalizacao = document.getElementById('sinalizacao').value;
+
+            const accident = {
+                dataHora, local, coordenadas, envolvidos, veiculos, condicao, descricao, fotos, condicoes, sinalizacao
+            };
+
+            let accidents = JSON.parse(localStorage.getItem('accidents')) || [];
+            accidents.push(accident);
+            localStorage.setItem('accidents', JSON.stringify(accidents));
+            alert('Acidente registrado com sucesso!');
+        }
+
+        function filterAccidents() {
+            const search = document.getElementById('search').value.toLowerCase();
+            const accidents = JSON.parse(localStorage.getItem('accidents')) || [];
+            const filteredAccidents = accidents.filter(accident => accident.local.toLowerCase().includes(search));
+            renderAccidents(filteredAccidents);
+        }
+
+        function renderAccidents(accidents) {
+            const accidentsList = document.getElementById('accidents-list');
+            accidentsList.innerHTML = '';
+            accidents.forEach((accident, index) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${accident.dataHora}</td>
+                    <td>${accident.local}</td>
+                    <td>${accident.veiculos.join(', ')}</td>
+                    <td>
+                        <button onclick="viewAccidentDetails('${accident.dataHora}')">Ver</button>
+                        <button onclick="removeAccident(${index})">Remover</button>
+                    </td>
+                `;
+                accidentsList.appendChild(row);
+            });
+        }
+
+        function removeAccident(index) {
+            let accidents = JSON.parse(localStorage.getItem('accidents')) || [];
+            accidents.splice(index, 1);
+            localStorage.setItem('accidents', JSON.stringify(accidents));
+            renderAccidents(accidents);  // Atualiza a lista na interface
+        }
+
+        // Inicializa o gráfico
+        const ctx = document.getElementById('accidentChart').getContext('2d');
+        const accidentChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Carros', 'Motos', 'Bicicletas', 'Caminhões'],
+                datasets: [{
+                    label: 'Tipos de Veículos Envolvidos',
+                    data: [10, 5, 2, 3],  // Exemplo de dados (pode ser alterado dinamicamente)
+                    backgroundColor: ['#4f8ac8', '#ff6347', '#2e8b57', '#8b0000'],
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Estatísticas de Acidentes',
+                    },
+                    legend: {
+                        display: false
+                    }
+                }
+            }
+        });
+
+        // Carrega a lista de acidentes na página inicial
+        window.onload = function() {
+            renderAccidents(JSON.parse(localStorage.getItem('accidents')) || []);
+        }
+    </script>
+</body>
+</html>
